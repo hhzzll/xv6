@@ -57,6 +57,7 @@ kfree(void *pa)
   r = (struct run*)pa;
 
   acquire(&kmem.lock);
+  // insert to the head of the freelist
   r->next = kmem.freelist;
   kmem.freelist = r;
   release(&kmem.lock);
@@ -79,4 +80,14 @@ kalloc(void)
   if(r)
     memset((char*)r, 5, PGSIZE); // fill with junk
   return (void*)r;
+}
+
+// Return the free mem(unit is byte) in the kernel
+uint64 kfree_mem(void) {
+  uint64 page_cnt = 0;
+  acquire(&kmem.lock);
+  for (struct run *p = kmem.freelist; p; p = p->next)
+    page_cnt++;
+  release(&kmem.lock);
+  return page_cnt * PGSIZE;
 }
