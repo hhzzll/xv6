@@ -86,6 +86,12 @@ int sys_pgaccess(void) {
 bad:
     return -1;
 }
+
+int sys_print_pgtbl(void) {
+    vmprint(myproc()->pagetable);
+    return 0;
+}
+
 #endif
 
 uint64 sys_kill(void) {
