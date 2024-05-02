@@ -112,8 +112,7 @@ void test2() {
   }
   for (int i = 0; i < 50; i++) {
     free1 = countfree();
-    if(i % 10 == 9)
-      printf(".");
+
     if(free1 != free0) {
       printf("test2 FAIL: losing pages\n");
       exit(-1);
