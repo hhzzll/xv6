@@ -99,8 +99,6 @@ static void *cpu_alloc() {
     if (free_pg)
         ac->free_num--;
 
-    pop_off();
-
     return (void *)free_pg;
 }
 
@@ -161,7 +159,13 @@ void kfree(void *pa) {
     // Fill with junk to catch dangling refs.
     memset(pa, 1, PGSIZE);
 
+    push_off();
+    acquire(&kmem_cache.lock);
+
     cpu_free((struct run *)pa);
+    
+    release(&kmem_cache.lock);
+    pop_off();
 }
 
 // Allocate one 4096-byte page of physical memory.
