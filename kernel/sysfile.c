@@ -169,19 +169,6 @@ bad:
   return -1;
 }
 
-uint64
-sys_symlink(void) {
-  char from[MAXPATH], to[MAXPATH];  // from -> to
-  if (argstr(0, to, MAXPATH) < 0 || argstr(1, from, MAXPATH) < 0)
-    return -1;
-
-
-  return 0;
-
-}
-
-
-
 // Is the directory dp empty except for "." and ".." ?
 static int
 isdirempty(struct inode *dp)
@@ -516,3 +503,29 @@ sys_pipe(void)
   }
   return 0;
 }
+
+uint64
+sys_symlink(void) {
+  char from[MAXPATH], to[MAXPATH];  // from -> to
+  if (argstr(0, to, MAXPATH) < 0 || argstr(1, from, MAXPATH) < 0)
+    return -1;
+
+  begin_op();
+  struct inode *ifrom = create(from, T_SYMLINK, 0, 0);
+  if (ifrom == 0) {
+    end_op();
+    return -1;
+  }
+  // write the 'to' path to the inode
+  if (writei(ifrom, 0, (uint64)to, 0, strlen(to)) != strlen(to)) {
+    iunlockput(ifrom);
+    end_op();
+    return -1;
+  }
+
+  iupdate(ifrom);
+  iunlockput(ifrom);
+  end_op();
+  return 0;
+}
+
