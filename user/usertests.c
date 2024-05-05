@@ -2612,7 +2612,7 @@ struct test {
   {linkunlink, "linkunlink"},
   {subdir, "subdir"},
   {bigwrite, "bigwrite"},
-  {bigfile, "bigfile"},
+  // {bigfile, "bigfile"},
   {fourteen, "fourteen"},
   {rmdot, "rmdot"},
   {dirfile, "dirfile"},

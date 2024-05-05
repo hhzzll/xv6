@@ -169,6 +169,19 @@ bad:
   return -1;
 }
 
+uint64
+sys_symlink(void) {
+  char from[MAXPATH], to[MAXPATH];  // from -> to
+  if (argstr(0, to, MAXPATH) < 0 || argstr(1, from, MAXPATH) < 0)
+    return -1;
+
+
+  return 0;
+
+}
+
+
+
 // Is the directory dp empty except for "." and ".." ?
 static int
 isdirempty(struct inode *dp)

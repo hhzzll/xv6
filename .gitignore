@@ -25,3 +25,8 @@ barrier
 .DS_Store
 *.dSYM
 *.pcap
+.cache/
+.clang-format
+.vscode/
+access_token
+compile_commands.json
