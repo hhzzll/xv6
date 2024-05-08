@@ -15,6 +15,7 @@
 #define NBUF         (MAXOPBLOCKS*3)  // size of disk block cache
 #ifdef LAB_FS
 #define FSSIZE       200000  // size of file system in blocks
+#define MAX_DEPTH_SYMLINK  3    // maximum depth of symlinks
 #else
 #ifdef LAB_LOCK
 #define FSSIZE       10000  // size of file system in blocks
